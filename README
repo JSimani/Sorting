@@ -1,0 +1,113 @@
+A.  Josh Simani HW5
+
+B.  Purpose
+    The purpose of this homework assignment was to get practice in using 
+    vectors and different sorting algorithms. For this assignment, the student 
+    was to choose two different sorting algorithms in addition to Insertion 
+    Sort and implement them while sorting long lists of large integers. 
+
+C.  Acknowledgements
+    I received help by asking questions to TAs and fellow students on Piazza
+    about the expected format of certain functions within the program. I also 
+    used the to_string() function within the C++11 standard library to be able 
+    to put the size of the sorted list (integer) into the string for the 
+    output file. 
+
+D.  Files Provided
+    sortAlgs.h - The header files that specifies the three sorting algorithms 
+    I used in my implementation of the sorter program. 
+
+    sortAlgs.cpp - Defines the three sorting algorithms I used in my 
+    implementation of the sorter program, and declares/defines the helper 
+    functions I used to implement these sorting function. 
+
+    sorter.cpp - The main .cpp function for my program. This part of my 
+    program handles the interface of the program and the use of inputs and 
+    outputs for the sorting program. 
+
+    README - The file you're reading right now!
+
+    Makefile - The file which defines shortcuts for commands within the 
+               project's directory. Included in these shortcuts is the "make"
+               command, which compiles all of the necessary files to run
+               sorter, the executable for my program. I also have a "make
+               clean" command, which clears all of the compiler files and the 
+               executable created from compiling. I also have "make valgrind",
+               which checks the program for possible memory leaks. 
+
+E.  Data Structures
+    In my program, I used integer vectors to store the numbers I was sorting. 
+    This proved very useful because I didn't have to worry about memory 
+    allocation or the implementations of the vector's public functions like 
+    push_back(), size(), empty(), and the indexing operator[]. 
+
+    Algorithms: 
+    1.  Insertion Sort: The algorithm for insertion sort is fairly straight 
+    forward. Given a particular element, keep moving the elements to the left 
+    of it over one position to the right until the next element is less than 
+    the original element. Then place the original element in the spot of the 
+    last moved element. You need to do this for every element in the list from 
+    the first to the last. The best case runtime for Insertion Sort occurs 
+    when the list of integers is already sorted, resulting in a runtime of 
+    O(n). The worst case runtime occurs when the list of integers is in 
+    reverse order, resulting in a runtime of O(n^2). The average runtime for 
+    Insertion Sort is O(n^2) because you are multiplying the number of 
+    integers to sort by an average number of shifts that need to occur. 
+
+    2.  Quick Sort: The algorithm for quick sort is more complicated than 
+    insertion sort. When given a list of integers, you need to choose a pivot 
+    number (I chose the first element). Using three sub-vectors (left, middle, 
+    right), you place the elements in the list less than the pivot in the left 
+    vector, the elements equal to the pivot in the middle vector, and the 
+    elements greater than the pivot in the right vector. The partition function
+    has a base case (because it's recursive!) where if the size of the vector 
+    is less than 2, it doesn't do anything and returns the original vector. 
+    With this, we can call glue (which concatenates vectors) on partition(
+    left) + middle + partition(right). We don't need to partition middle again 
+    because it only contains the pivot number and is therefore already sorted. 
+    Partitioning a sub-vector will cause more partitions until it reaches a 
+    state where all partitions are less than 2 (except for middle vectors). 
+    This will then continuously concatenate these vectors until we are left 
+    with one whole, sorted vector. The worst case is when the selected pivot 
+    is the smallest or greatest element in the list, resulting in a runtime of 
+    O(n^2). The best case is when the selected pivot is the median element in 
+    the list, resulting in a runtime of O (n log(n)). The average runtime ends 
+    up being (n long(n)).
+
+    3.  Radix Sort: The algorithm for radix sort deals with the values of 
+    specific digits within a number, rather than dealing with the number as a 
+    whole. For every digit starting from the one's place, up to the largest 
+    place for the largest number in the list, that number is placed in a vector
+    (0-9) corresponding to the value of the number at that digit. At the end of
+    that iteration, these vectors are concatenated and overwrite the original 
+    list. This process repeats for a set number of times based on the number of
+    digits for the largest number in the list. The worst case is when there is 
+    a large number of digits to iterate through and there are a lot of numbers 
+    to go through. The best case is when there is a low number of digits and a 
+    small list of numbers to sort. All cases end in a runtime of O(dn), where 
+    d = number of digits and n = number of numbers to sort through. 
+
+F.  Testing
+    
+    Input Files:
+    empty.txt - A file with no integers inside. This should produce no outputs.
+
+    forwardOrderContinuous.txt - A file containing continuously increasing 
+    integers from 0 to 2147483647. 
+
+    forwardOrderSkip.txt - A file containing noncontinuously increasing 
+    integers from 0 to 2147483647. 
+
+    reverseOrderContinuous.txt - A file containing continuously decreasing 
+    integers from 2147483647 to 0.
+
+    reverseOrderSkip.txt - A file containing noncontinuously decreasing 
+    integers from 2147483647 to 0.
+
+    random.txt - A file containing randomly ordered numbers from 0 to 
+    2147483647.
+
+    Test Programs:
+    To test my algorithms, I used a separate test .cpp file for every 
+    algorithm. Each executable opens every text file and sorts the numbers 
+    within them. It prints all of the output to [SortAlg]Output.txt. 
