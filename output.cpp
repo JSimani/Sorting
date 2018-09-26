@@ -36,7 +36,6 @@ int main()
         for (size_t i = 0; i < size; i++) 
             cout << (int)rand() % range << " ";
     }
-    
 
     cout << endl;
 
