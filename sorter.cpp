@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 #include <cstdlib>
+#include <ctime>
+#include <cmath>
 #include "sortAlgs.h"
 #include "wordWrap.h"
 using namespace std;
@@ -16,12 +18,14 @@ struct sortInfo {
     void (*sort)(vector<Element> &);
     bool reverse;
     bool argFail;
+    bool timer;
 
     sortInfo()
     {
         sort=quickSort;
         reverse=false;
         argFail=false;
+        timer = false;
     }
 };
 
@@ -43,6 +47,9 @@ int main(int argc, char *argv[])
     vector<Element> listOne;
     string argOne = (argc > 1 ? argv[1] : " ");
     sortInfo info;
+    clock_t start, end;
+    double seconds;
+    size_t minutes;
 
     processArguments(argc, argv, info);
     if (info.argFail) {
@@ -63,8 +70,10 @@ int main(int argc, char *argv[])
         infile.close();
     } 
     
+    start = clock();
     info.sort(listOne);
-
+    end = clock();
+    
     if (info.reverse) {
         size_t size = listOne.size();
         for (size_t i = 0; i < size / 2; i++) {
@@ -75,6 +84,15 @@ int main(int argc, char *argv[])
     }
 
     printVector(listOne);
+
+    if (info.timer) {
+        seconds = double(end - start) / CLOCKS_PER_SEC;
+        minutes = (seconds / 60);
+        seconds = fmod(seconds, 60);
+
+        cerr << "time: " << minutes << "m" << seconds << "s" << endl;
+    }
+    
     return 0;
 }
 
@@ -184,7 +202,7 @@ void printHelp(char *argv[])
        << "maximum number of digits per integer.";
     wordWrap(ss, cerr, 8);
     ss << "Note: This only works with integers, and cannot be used to sort "
-       << "floating point numbers.";
+       << "floating point numbers or strings.";
     wordWrap(ss, cerr, 8);
     cerr << endl;
 
@@ -200,7 +218,7 @@ void printHelp(char *argv[])
     wordWrap(ss, cerr, 8);
 
     ss << "Note: This only works with integers, and cannot be used to sort "
-       << "floating point numbers.";
+       << "floating point numbers or strings.";
     wordWrap(ss, cerr, 8);
     cerr << endl;
 
@@ -215,6 +233,14 @@ void printHelp(char *argv[])
     wordWrap(ss, cerr, 4);
 
     ss << "Reverse sort the input.";
+    wordWrap(ss, cerr, 8);
+    cerr << endl;
+
+    ss << "-t, --time";
+    wordWrap(ss, cerr, 4);
+
+    ss << "Display the time taken to sort the elements. Does not include "
+       << "time taken to output results.";
     wordWrap(ss, cerr, 8);
 }
 
@@ -245,6 +271,8 @@ void processArguments(int argc, char *argv[], sortInfo &info)
 
             printHelp(argv);
             info.argFail = true;
+        } else if (currArg == "-t" || currArg == "--time") {
+            info.timer = true;
         } else if (argv[i][0] == '-') {
             if (info.argFail)
                 continue;
