@@ -13,9 +13,16 @@ const string USAGE = " [-1234567hr] [--algorithm=method] [--help] \
 typedef int Element;
 
 struct sortInfo {
-    void (*sort)(vector<Element> &) = quickSort;
-    bool reverse = false;
-    bool argFail = false;
+    void (*sort)(vector<Element> &);
+    bool reverse;
+    bool argFail;
+
+    sortInfo()
+    {
+        sort=quickSort;
+        reverse=false;
+        argFail=false;
+    }
 };
 
 void printError(char *[], int);
