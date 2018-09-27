@@ -1,4 +1,3 @@
-#Sorter
 ## Sorting Options
 ### Algorithm
 Specify when algorithm to use by using the flag, ``--algorithm=method``. Options include insertionSort, selectionSort, quickSort, mergeSort, heapSort, radixSort, and bucketSort. The default algorithm is quickSort. 
